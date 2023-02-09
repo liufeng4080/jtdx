@@ -2600,7 +2600,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)  //eventFilter()
   switch (event->type())
     {
     case QEvent::WindowActivate:
-      txwatchdog (false);
+      // txwatchdog (false);
       break;
     case QEvent::KeyPress:
       // fall through
@@ -3558,7 +3558,7 @@ void MainWindow::process_Auto()
         else if (prio == 17 ||  prio == 2) StrPriority = " Wanted Country ";
         if (m_status > QsoHistory::RREPORT) StrPriority += " Resume interrupted QSO ";
       }
-      writeToALLTXT("hisCall:" + hisCall + "mode:" + mode + StrPriority + " time:" + QString::number(time) +  " autoselect: " + StrDirection + " status: " + StrStatus[m_status] + " count: " + QString::number(count)+ " prio: " + QString::number(prio));
+      writeToALLTXT("hisCall:" + hisCall + " mode:" + mode + StrPriority + " time:" + QString::number(time) +  " autoselect: " + StrDirection + " status: " + StrStatus[m_status] + " count: " + QString::number(count)+ " prio: " + QString::number(prio));
     }
     if (!hisCall.isEmpty ()) {
       if (m_callToClipboard) clipboard->setText(hisCall);
@@ -3596,6 +3596,7 @@ void MainWindow::process_Auto()
         else { m_status=QsoHistory::RREPORT; }
       }
       genStdMsgs(rpt);
+      enableTx_mode(true);
     }
     switch (m_status) {
       case QsoHistory::RFIN:
@@ -8005,6 +8006,7 @@ void MainWindow::txwatchdog (bool triggered)
       if (m_enableTx) enableTx_mode (false);
       tx_status_label->setStyleSheet (QString("QLabel{background: %1}").arg(Radio::convert_dark("#ff8080",m_useDarkStyle)));
       tx_status_label->setText (tr("Tx watchdog expired"));
+      on_txb6_clicked();
     }
   else
     {
