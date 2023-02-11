@@ -2240,6 +2240,7 @@ void MainWindow::on_enableTxButton_clicked (bool checked)
 // sync TX variables 
      if(!m_transmitting) { m_bTxTime=false; m_tx_when_ready=false; m_restart=false; m_txNext=false; }
 	 ui->enableTxButton->setStyleSheet(QString("QPushButton {color: %1;background: %2;border-style: solid;border-width: 1px;border-color: %3;min-width: 63px;padding: 0px}").arg(Radio::convert_dark("#000000",m_useDarkStyle),Radio::convert_dark("#dcdcdc",m_useDarkStyle),Radio::convert_dark("#adadad",m_useDarkStyle)));
+   on_txb6_clicked();
   }
 }
 
@@ -3596,7 +3597,7 @@ void MainWindow::process_Auto()
         else { m_status=QsoHistory::RREPORT; }
       }
       genStdMsgs(rpt);
-      enableTx_mode(true);
+      if(m_autoTx) enableTx_mode(true);
     }
     switch (m_status) {
       case QsoHistory::RFIN:
