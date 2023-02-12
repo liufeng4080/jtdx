@@ -2601,6 +2601,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)  //eventFilter()
   switch (event->type())
     {
     case QEvent::WindowActivate:
+      // below line causes watchdog resetting when reactive jtdx app, comment to avoid this behavior
       // txwatchdog (false);
       break;
     case QEvent::KeyPress:
@@ -3559,6 +3560,7 @@ void MainWindow::process_Auto()
         else if (prio == 17 ||  prio == 2) StrPriority = " Wanted Country ";
         if (m_status > QsoHistory::RREPORT) StrPriority += " Resume interrupted QSO ";
       }
+      // a space missing before 'mode' in below line
       writeToALLTXT("hisCall:" + hisCall + " mode:" + mode + StrPriority + " time:" + QString::number(time) +  " autoselect: " + StrDirection + " status: " + StrStatus[m_status] + " count: " + QString::number(count)+ " prio: " + QString::number(prio));
     }
     if (!hisCall.isEmpty ()) {
@@ -3597,6 +3599,7 @@ void MainWindow::process_Auto()
         else { m_status=QsoHistory::RREPORT; }
       }
       genStdMsgs(rpt);
+      // a new callsign is detected by autoseq and ready for tx, so just tx it, if in autotx mode
       if(m_autoTx) enableTx_mode(true);
     }
     switch (m_status) {
@@ -8009,6 +8012,7 @@ void MainWindow::txwatchdog (bool triggered)
       if (m_enableTx) enableTx_mode (false);
       tx_status_label->setStyleSheet (QString("QLabel{background: %1}").arg(Radio::convert_dark("#ff8080",m_useDarkStyle)));
       tx_status_label->setText (tr("Tx watchdog expired"));
+      // reset hisCallsign to blank, to got ready for next detection
       on_txb6_clicked();
     }
   else
