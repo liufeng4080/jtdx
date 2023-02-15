@@ -7931,10 +7931,10 @@ void MainWindow::on_the_minute ()
   else { txwatchdog (false); }
   //3...4 minutes to stop AP decoding
   if(!m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 120000) m_lapmyc=0;
-  // if no TX in lastest 5 minutes, switch/scan tx period, every minute
-  if(m_autoTx && !m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 300000) ui->TxMinuteButton->click ();
-  // if no TX in lastest 10 minutes, tx
-  if(m_autoTx && !m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 600000) enableTx_mode(true);
+  // if no TX in lastest 10 minutes, switch/scan tx period, every minute
+  if(m_autoTx && !m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 600000) ui->TxMinuteButton->click ();
+  // if no TX in lastest 60 minutes, tx
+  if(m_autoTx && !m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 3600000) enableTx_mode(true);
 }
 
 void MainWindow::toggle_skipTx1 ()
