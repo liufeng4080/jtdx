@@ -2238,9 +2238,10 @@ void MainWindow::on_enableTxButton_clicked (bool checked)
 	 ui->enableTxButton->setStyleSheet(QString("QPushButton {color: %1;background: %2;border-style: solid;border-width: 1px;border-radius: 5px;border-color: %3;min-width: 63px;padding: 0px}").arg(Radio::convert_dark("#000000",m_useDarkStyle),Radio::convert_dark("#ff3c3c",m_useDarkStyle),Radio::convert_dark("#000000",m_useDarkStyle)));
   } else {
 // sync TX variables 
-     if(!m_transmitting) { m_bTxTime=false; m_tx_when_ready=false; m_restart=false; m_txNext=false; }
-	 ui->enableTxButton->setStyleSheet(QString("QPushButton {color: %1;background: %2;border-style: solid;border-width: 1px;border-color: %3;min-width: 63px;padding: 0px}").arg(Radio::convert_dark("#000000",m_useDarkStyle),Radio::convert_dark("#dcdcdc",m_useDarkStyle),Radio::convert_dark("#adadad",m_useDarkStyle)));
-   on_txb6_clicked();
+    if(!m_transmitting) { m_bTxTime=false; m_tx_when_ready=false; m_restart=false; m_txNext=false; }
+	  ui->enableTxButton->setStyleSheet(QString("QPushButton {color: %1;background: %2;border-style: solid;border-width: 1px;border-color: %3;min-width: 63px;padding: 0px}").arg(Radio::convert_dark("#000000",m_useDarkStyle),Radio::convert_dark("#dcdcdc",m_useDarkStyle),Radio::convert_dark("#adadad",m_useDarkStyle)));
+    // reset callsign when tx stopped, to prepare for next autoseq
+    on_txb6_clicked();
   }
 }
 
@@ -7930,8 +7931,10 @@ void MainWindow::on_the_minute ()
   else { txwatchdog (false); }
   //3...4 minutes to stop AP decoding
   if(!m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 120000) m_lapmyc=0;
-  // if no TX in lastest 10 minutes, switch/scan tx period, every minute
-  if(m_autoTx && !m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 600000) ui->TxMinuteButton->click ();
+  // if no TX in lastest 5 minutes, switch/scan tx period, every minute
+  if(m_autoTx && !m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 300000) ui->TxMinuteButton->click ();
+  // if no TX in lastest 10 minutes, tx
+  if(m_autoTx && !m_transmitting && m_mode=="FT8" && (m_jtdxtime->currentMSecsSinceEpoch2()-m_mslastTX) > 600000) enableTx_mode(true);
 }
 
 void MainWindow::toggle_skipTx1 ()
