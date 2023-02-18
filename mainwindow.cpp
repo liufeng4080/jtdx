@@ -2241,7 +2241,7 @@ void MainWindow::on_enableTxButton_clicked (bool checked)
     if(!m_transmitting) { m_bTxTime=false; m_tx_when_ready=false; m_restart=false; m_txNext=false; }
 	  ui->enableTxButton->setStyleSheet(QString("QPushButton {color: %1;background: %2;border-style: solid;border-width: 1px;border-color: %3;min-width: 63px;padding: 0px}").arg(Radio::convert_dark("#000000",m_useDarkStyle),Radio::convert_dark("#dcdcdc",m_useDarkStyle),Radio::convert_dark("#adadad",m_useDarkStyle)));
     // reset callsign when tx stopped, to prepare for next autoseq
-    on_txb6_clicked();
+    if (m_autoTx) clearDX("clear dx when halt tx");
   }
 }
 
@@ -6920,6 +6920,7 @@ void MainWindow::on_stopTxButton_clicked()                    //Stop Tx
   if(m_transmitting && m_skipTx1 && !m_hisCall.isEmpty() && (m_ntx==2 || m_QSOProgress==REPORT)) m_qsoHistory.remove(m_hisCall);
 // sync TX variables, RX scenario is covered in on_enableTxButton_clicked ()
   m_bTxTime=false; m_tx_when_ready=false; m_transmitting=false; m_restart=false; m_txNext=false;
+  if (m_autoTx) clearDX("reset dx when halt tx");
 }
 
 void MainWindow::rigOpen ()
@@ -8016,7 +8017,7 @@ void MainWindow::txwatchdog (bool triggered)
       tx_status_label->setStyleSheet (QString("QLabel{background: %1}").arg(Radio::convert_dark("#ff8080",m_useDarkStyle)));
       tx_status_label->setText (tr("Tx watchdog expired"));
       // reset hisCallsign to blank, to got ready for next detection
-      on_txb6_clicked();
+      if (m_autoTx) clearDX("get ready for next auto dx detection");
     }
   else
     {
