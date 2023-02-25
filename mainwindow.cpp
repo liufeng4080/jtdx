@@ -4567,7 +4567,8 @@ void MainWindow::guiUpdate()
     if (m_config.watchdog() && !m_transmitting && !m_mode.startsWith ("WSPR")
         && m_idleMinutes >= m_config.watchdog ()) {
       txwatchdog (true);       // switch off Enable Tx button
-      txwatchdog (false);
+      // reset watchdog timer
+      if (m_autoTx) txwatchdog (false);
     }
     if(m_tune && m_config.tunetimer() && !m_tuneup) { //shall not count at WSPR band hopping
       QString remtime;
