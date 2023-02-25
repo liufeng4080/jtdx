@@ -85,5 +85,5 @@ QString program_title (QString const& revision)
 {
   // add a 'mod tag' in the title of jtdx app
   QString id {QCoreApplication::applicationName () + "  by HF community, v" + QCoreApplication::applicationVersion ()};
-  return id + " " + revision + ", derivative work based on WSJT-X by K1JT, BH1WQR TxBot build " + __DATE__;
+  return id + " " + revision + ", derivative work based on WSJT-X by K1JT, BH1WQR AutoTxBot mod " + __DATE__;
 }
