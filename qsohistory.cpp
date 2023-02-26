@@ -119,8 +119,11 @@ QsoHistory::Status QsoHistory::autoseq(QString &callsign, QString &grid, QString
     QsoHistory::Status ret = NONE;
     if (_working)
     {
+      // myas means my autoseq, this variable means 'no candidate found' and need to search
+      // if it got true, means a station found to call 
       bool myas_active = as_active;
       int on_black = 0;
+      // call sign is really a callsign not a DX or continent
       if (callsign.length() > 2)
         {
           int hound = count;
@@ -130,6 +133,7 @@ QsoHistory::Status QsoHistory::autoseq(QString &callsign, QString &grid, QString
           t.tx = 0;
           t.s_rep = "";
           t.priority = 0;
+          // t has full infomation of the callsign
           t = _data.value(Radio::base_callsign (callsign),t);
           if (t.status > NONE || t.rx > 0) {
             ret = t.status;

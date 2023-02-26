@@ -98,6 +98,7 @@ namespace Radio
     return callsign.contains ('/');
   }
 
+  // base_callsign: if exists, trim the suffix from callsign
   // split on first '/' and return the larger portion or the whole if
   // there is no '/'
   QString base_callsign (QString callsign)

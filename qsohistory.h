@@ -42,10 +42,10 @@ class QsoHistory
 
  	struct QSO
  	{
-	  QString	call,grid,r_rep,s_rep,tyyp,continent,mpx,mode;
-	  Status	status,srx_c,srx_p,stx_c,stx_p;
+	  QString	call,grid,r_rep,s_rep,tyyp,continent,mpx,mode; // tyyp is DX,AS,EU etc, mpx means my prefix
+	  Status	status,srx_c,srx_p,stx_c,stx_p; //_c/_p means current/previous, I guess
 	  unsigned	b_time,time;
-	  int		distance,rx,tx,count,priority;
+	  int		distance,rx,tx,count,priority; // rx/tx is freq of recieve/transmit
 	   	
  	};
 
